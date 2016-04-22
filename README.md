@@ -1,3 +1,26 @@
+## rtctree (kinetic) - 3.0.1-0
+
+The packages in the `rtctree` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release rtctree -t kinetic -r kinetic` on `Fri, 22 Apr 2016 03:51:45 -0000`
+
+The `rtctree` package was released.
+
+Version of package(s) in repository `rtctree`:
+
+- upstream repository: https://github.com/gbiggs/rtctree.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `3.0.1-0`
+
+Versions of tools used:
+
+- bloom version: `0.5.21`
+- catkin_pkg version: `0.2.10`
+- rosdep version: `0.11.4`
+- rosdistro version: `0.4.4`
+- vcstools version: `0.1.38`
+
+
 ## rtctree (jade) - 3.0.1-0
 
 The packages in the `rtctree` repository were released into the `jade` distro by running `/usr/bin/bloom-release rtctree -r jade -t jade` on `Wed, 22 Apr 2015 08:55:30 -0000`
