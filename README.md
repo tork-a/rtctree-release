@@ -1,3 +1,26 @@
+## rtctree (melodic) - 3.0.1-1
+
+The packages in the `rtctree` repository were released into the `melodic` distro by running `/usr/bin/bloom-release rtctree --rosdistro melodic --track melodic` on `Wed, 28 Aug 2019 06:05:37 -0000`
+
+The `rtctree` package was released.
+
+Version of package(s) in repository `rtctree`:
+
+- upstream repository: https://github.com/gbiggs/rtctree.git
+- release repository: https://github.com/tork-a/rtctree-release.git
+- rosdistro version: `3.0.1-0`
+- old version: `3.0.1-0`
+- new version: `3.0.1-1`
+
+Versions of tools used:
+
+- bloom version: `0.8.0`
+- catkin_pkg version: `0.4.12`
+- rosdep version: `0.15.2`
+- rosdistro version: `0.7.4`
+- vcstools version: `0.1.42`
+
+
 ## rtctree (melodic) - 3.0.1-0
 
 The packages in the `rtctree` repository were released into the `melodic` distro by running `/usr/bin/bloom-release rtctree --skip-pip --track melodic --rosdistro melodic` on `Mon, 08 Apr 2019 03:25:20 -0000`
