@@ -1,0 +1,162 @@
+From a1279e8e78af7f2c1f4c08a65217244afc37402a Mon Sep 17 00:00:00 2001
+From: Kei Okada <k-okada@jsk.t.u-tokyo.ac.jp>
+Date: Thu, 28 Sep 2023 15:53:31 +0900
+Subject: [PATCH] noetic support: 2to3 -w ., update package.xml
+
+---
+ package.xml           |  2 +-
+ rtctree/component.py  |  2 +-
+ rtctree/directory.py  |  4 ++--
+ rtctree/manager.py    | 14 +++++++-------
+ rtctree/nameserver.py |  2 +-
+ rtctree/node.py       |  4 ++--
+ rtctree/utils.py      |  4 ++--
+ 7 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/package.xml b/package.xml
+index 5ca524b..2bf3662 100644
+--- a/package.xml
++++ b/package.xml
+@@ -14,7 +14,7 @@
+   <url type="website">http://ros.org/wiki/openrtm_tools</url>
+ 
+   <buildtool_depend>catkin</buildtool_depend>
+-  <build_depend>python-setuptools</build_depend>
++  <build_depend>python3-setuptools</build_depend>
+   <build_depend>python-omniorb</build_depend>
+ 
+   <export>
+diff --git a/rtctree/component.py b/rtctree/component.py
+index 13b2ed3..d3b37c8 100644
+--- a/rtctree/component.py
++++ b/rtctree/component.py
+@@ -827,7 +827,7 @@ class Component(TreeNode):
+     @property
+     def loggers(self):
+         '''Returns the list of logger IDs attached to this component.'''
+-        return self._loggers.keys()
++        return list(self._loggers.keys())
+ 
+     @property
+     def object(self):
+diff --git a/rtctree/directory.py b/rtctree/directory.py
+index b58e9e1..8c0cc68 100644
+--- a/rtctree/directory.py
++++ b/rtctree/directory.py
+@@ -152,7 +152,7 @@ class Directory(TreeNode):
+                     obj = self._context.resolve(binding.binding_name)
+                     try:
+                         obj = obj._narrow(RTC.RTObject)
+-                    except CORBA.TRANSIENT, e:
++                    except CORBA.TRANSIENT as e:
+                         if e.args[0] == TRANSIENT_ConnectFailed:
+                             self._add_child(Zombie(name, self))
+                             return
+@@ -166,7 +166,7 @@ class Directory(TreeNode):
+                     except CORBA.OBJECT_NOT_EXIST:
+                         # Component zombie
+                         leaf = Zombie(name, self, dynamic=self.dynamic)
+-                    except CORBA.TRANSIENT, e:
++                    except CORBA.TRANSIENT as e:
+                         if e.args[0] == TRANSIENT_ConnectFailed:
+                             self._add_child(Zombie(name, self))
+                             return
+diff --git a/rtctree/manager.py b/rtctree/manager.py
+index 76f7158..898086e 100644
+--- a/rtctree/manager.py
++++ b/rtctree/manager.py
+@@ -113,7 +113,7 @@ class Manager(TreeNode):
+             with self._mutex:
+                 if self._obj.load_module(path, init_func) != RTC.RTC_OK:
+                     raise FailedToLoadModuleError(path)
+-        except CORBA.UNKNOWN, e:
++        except CORBA.UNKNOWN as e:
+             if e.args[0] == UNKNOWN_UserException:
+                 raise FailedToLoadModuleError(path, 'CORBA User Exception')
+             else:
+@@ -328,9 +328,9 @@ class Manager(TreeNode):
+         with self._mutex:
+             try:
+                 comps = self._obj.get_components()
+-            except CORBA.BAD_PARAM, e:
+-                print >>sys.stderr, '{0}: {1}'.format(
+-                        os.path.basename(sys.argv[0]), e)
++            except CORBA.BAD_PARAM as e:
++                print('{0}: {1}'.format(
++                        os.path.basename(sys.argv[0]), e), file=sys.stderr)
+                 return
+             for c in comps:
+                 # Get the instance profile - this will be the node's name
+@@ -353,11 +353,11 @@ class Manager(TreeNode):
+                 # Add each slave manager as a child node.
+                 try:
+                     props = nvlist_to_dict(m.get_profile().properties)
+-                except CORBA.TRANSIENT, e:
++                except CORBA.TRANSIENT as e:
+                     if e.args[0] == TRANSIENT_ConnectFailed:
+-                        print >>sys.stderr, '{0}: Warning: zombie slave of '\
++                        print('{0}: Warning: zombie slave of '\
+                                 'manager {1} found'.format(sys.argv[0],
+-                                        self.name)
++                                        self.name), file=sys.stderr)
+                         continue
+                     else:
+                         raise
+diff --git a/rtctree/nameserver.py b/rtctree/nameserver.py
+index cd403d5..05cf2c4 100644
+--- a/rtctree/nameserver.py
++++ b/rtctree/nameserver.py
+@@ -88,7 +88,7 @@ class NameServer(Directory):
+                 raise InvalidServiceError(address)
+             try:
+                 root_context = self._ns_obj._narrow(CosNaming.NamingContext)
+-            except CORBA.TRANSIENT, e:
++            except CORBA.TRANSIENT as e:
+                 if e.args[0] == TRANSIENT_ConnectFailed:
+                     raise InvalidServiceError(address)
+                 else:
+diff --git a/rtctree/node.py b/rtctree/node.py
+index 610ad4f..71ba9fb 100644
+--- a/rtctree/node.py
++++ b/rtctree/node.py
+@@ -196,13 +196,13 @@ class TreeNode(object):
+     def children(self):
+         '''The child nodes of this node (if any).'''
+         with self._mutex:
+-            return self._children.values()
++            return list(self._children.values())
+ 
+     @property
+     def children_names(self):
+         '''A list of the names of the child nodes of this node (if any).'''
+         with self._mutex:
+-            return self._children.keys()
++            return list(self._children.keys())
+ 
+     @property
+     def depth(self):
+diff --git a/rtctree/utils.py b/rtctree/utils.py
+index c3fce0a..0eaba02 100644
+--- a/rtctree/utils.py
++++ b/rtctree/utils.py
+@@ -132,7 +132,7 @@ def get_terminal_size():
+                                                             '0000'))
+         except ImportError:
+             return None
+-        except IOError, e:
++        except IOError as e:
+             return None
+         return cr[1], cr[0]
+ 
+@@ -161,7 +161,7 @@ def get_terminal_size():
+ def dict_to_nvlist(dict):
+     '''Convert a dictionary into a CORBA namevalue list.'''
+     result = []
+-    for item in dict.keys() :
++    for item in list(dict.keys()) :
+         result.append(SDOPackage.NameValue(item, any.to_any(dict[item])))
+     return result
+ 
+-- 
+2.25.1
+
