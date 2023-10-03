@@ -1,4 +1,4 @@
-From a1279e8e78af7f2c1f4c08a65217244afc37402a Mon Sep 17 00:00:00 2001
+From 2453ad42008d0e0673703c35f74c71f3ae748ea1 Mon Sep 17 00:00:00 2001
 From: Kei Okada <k-okada@jsk.t.u-tokyo.ac.jp>
 Date: Thu, 28 Sep 2023 15:53:31 +0900
 Subject: [PATCH] noetic support: 2to3 -w ., update package.xml
@@ -158,5 +158,5 @@ index c3fce0a..0eaba02 100644
      return result
  
 -- 
-2.25.1
+2.17.1
 
