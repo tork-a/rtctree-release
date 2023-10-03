@@ -1,3 +1,26 @@
+## rtctree (noetic) - 3.0.1-3
+
+The packages in the `rtctree` repository were released into the `noetic` distro by running `/usr/bin/bloom-release rtctree --track noetic --rosdistro noetic` on `Tue, 03 Oct 2023 02:51:30 -0000`
+
+The `rtctree` package was released.
+
+Version of package(s) in repository `rtctree`:
+
+- upstream repository: https://github.com/gbiggs/rtctree.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `3.0.1-2`
+- new version: `3.0.1-3`
+
+Versions of tools used:
+
+- bloom version: `0.11.2`
+- catkin_pkg version: `0.5.2`
+- rosdep version: `0.22.1`
+- rosdistro version: `0.8.3`
+- vcstools version: `0.1.42`
+
+
 ## rtctree (noetic) - 3.0.1-1
 
 The packages in the `rtctree` repository were released into the `noetic` distro by running `/home/k-okada/.local/bin/bloom-release rtctree --track noetic --ros-distro noetic` on `Thu, 28 Sep 2023 06:48:47 -0000`
