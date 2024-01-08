@@ -113,7 +113,7 @@ class Manager(TreeNode):
             with self._mutex:
                 if self._obj.load_module(path, init_func) != RTC.RTC_OK:
                     raise FailedToLoadModuleError(path)
-        except CORBA.UNKNOWN as e:
+        except CORBA.UNKNOWN, e:
             if e.args[0] == UNKNOWN_UserException:
                 raise FailedToLoadModuleError(path, 'CORBA User Exception')
             else:
@@ -328,9 +328,9 @@ class Manager(TreeNode):
         with self._mutex:
             try:
                 comps = self._obj.get_components()
-            except CORBA.BAD_PARAM as e:
-                print('{0}: {1}'.format(
-                        os.path.basename(sys.argv[0]), e), file=sys.stderr)
+            except CORBA.BAD_PARAM, e:
+                print >>sys.stderr, '{0}: {1}'.format(
+                        os.path.basename(sys.argv[0]), e)
                 return
             for c in comps:
                 # Get the instance profile - this will be the node's name
@@ -353,11 +353,11 @@ class Manager(TreeNode):
                 # Add each slave manager as a child node.
                 try:
                     props = nvlist_to_dict(m.get_profile().properties)
-                except CORBA.TRANSIENT as e:
+                except CORBA.TRANSIENT, e:
                     if e.args[0] == TRANSIENT_ConnectFailed:
-                        print('{0}: Warning: zombie slave of '\
+                        print >>sys.stderr, '{0}: Warning: zombie slave of '\
                                 'manager {1} found'.format(sys.argv[0],
-                                        self.name), file=sys.stderr)
+                                        self.name)
                         continue
                     else:
                         raise
