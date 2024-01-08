@@ -1,0 +1,31 @@
+From fa8396f0b5f733cbda439bdc4a0af11a4dead25e Mon Sep 17 00:00:00 2001
+From: Kei Okada <k-okada@jsk.t.u-tokyo.ac.jp>
+Date: Mon, 8 Jan 2024 16:25:47 +0900
+Subject: [PATCH 2/2] CMakeLists.txt: use python3 for setup.py
+
+closes https://github.com/tork-a/rtctree-release/issues/3
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0eb8986..8ae270f 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,11 +8,11 @@ else()
+ endif()
+ 
+ add_custom_target(compile_rtctree ALL
+-  COMMAND python setup.py build
++  COMMAND python3 setup.py build
+   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+ 
+ add_custom_target(install_rtctree
+-  COMMAND python setup.py install --prefix=$(DESTDIR)${CMAKE_INSTALL_PREFIX} ${SETUPTOOLS_ARG_EXTRA} --skip-build
++  COMMAND python3 setup.py install --prefix=$(DESTDIR)${CMAKE_INSTALL_PREFIX} ${SETUPTOOLS_ARG_EXTRA} --skip-build
+   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+ 
+ install(CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" --build \"${CMAKE_BINARY_DIR}\" --target install_rtctree)")
+-- 
+2.25.1
+
